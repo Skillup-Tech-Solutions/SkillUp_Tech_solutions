@@ -195,7 +195,7 @@ section#navbar .dropdown-item:hover{
     background-color:transparent;
 }
 section#navbar .navbar-brand {
-    width: 40px;
+    width: 85px;
 }
 section#navbar .navbar-brand img{
     width:100%;
@@ -851,7 +851,7 @@ section#contact .contact-content p {
     text-align: center;
     color: #443329;
     font-size: 16px;
-    padding: 30px 0px;
+    padding:15px 0px;
 }
 section#contact .contact-left {
     padding: 0px 5%;
@@ -873,6 +873,7 @@ section#contact textarea{
    background-color: transparent;
    color: white;
    padding:  0px 10px;
+   outline: none;
 }
 section#contact .contact-content label{
     color: white;
@@ -2108,6 +2109,6 @@ background: linear-gradient(to right, #FA6220 0%, #EF8B33 100%);
 .emailwrong{
     color:white !important;
     opacity:1 !important;
-    padding:10px 0px
-    background:red !important;
+    padding:10px 0px;
+    /* background:red !important; */
 }
