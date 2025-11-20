@@ -2112,3 +2112,28 @@ background: linear-gradient(to right, #FA6220 0%, #EF8B33 100%);
     padding:0px 0px !important;
     /* background:red !important; */
 }
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: #4CAF50; /* green */
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    z-index: 999999;
+}
+
+.custom-alert.error {
+    background-color: #e53935; /* red */
+}
+
+.custom-alert.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(10px);
+}
