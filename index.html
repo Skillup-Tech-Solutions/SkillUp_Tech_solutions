@@ -615,6 +615,7 @@
       </div>
   </section>
   </footer>
+  <div id="customAlert" class="custom-alert"></div>
     <!-- ------ -->
       <!-- back to top----  -->
   <div class="progress-wrap">
@@ -876,6 +877,27 @@
         dropdownMenu.classList.remove('show');
     });
   </script>
+  <!-- ---- emailjs ----  -->
+   <script>
+function showAlert(message, type="success") {
+    const alertBox = document.getElementById("customAlert");
+
+    alertBox.innerHTML = message;
+
+    if (type === "error") {
+        alertBox.classList.add("error");
+    } else {
+        alertBox.classList.remove("error");
+    }
+
+    alertBox.classList.add("show");
+
+    setTimeout(() => {
+        alertBox.classList.remove("show");
+    }, 3000); // hide after 3 seconds
+}
+</script>
+
 <!-- telegram api -->
  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
@@ -893,32 +915,31 @@ function nagutech() {
     let mobile = document.getElementById("validationCustom05").value;
     let message = document.getElementById("validationCustom04").value;
 
-    // Validation
     let mobilewrong = document.querySelector(".mobilewrong");
     let emailwrong = document.querySelector(".emailwrong");
 
     mobilewrong.textContent = "";
     emailwrong.textContent = "";
 
-    // Email validation
     let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(!email.match(mailformat)){
         emailwrong.textContent = "Enter a valid email";
+        showAlert("Enter a valid email!", "error");
         return;
     }
 
-    // Mobile number validation
     if(mobile.length < 6 || mobile.length > 20){
         mobilewrong.textContent = "Mobile number must be between 6 to 20 digits";
+        showAlert("Invalid mobile number!", "error");
         return;
     }
 
     if(!/^\d+$/.test(mobile)){
         mobilewrong.textContent = "Numbers only allowed";
+        showAlert("Mobile number must contain only digits!", "error");
         return;
     }
 
-    // Prepare EmailJS parameters
     let emailParams = {
         from_name: firstName + " " + lastName,
         user_email: email,
@@ -926,27 +947,25 @@ function nagutech() {
         message: message
     };
 
-    // Send Email
-    emailjs
-      .send("service_1974eni", "template_lu5ovt8", emailParams)
-      .then(
-        function(response) {
-          alert("Message Sent Successfully!");
+    emailjs.send("service_1974eni", "template_lu5ovt8", emailParams)
+    .then(
+        function() {
+            showAlert("Message Sent Successfully!", "success");
 
-          // Clear fields
-          document.getElementById("validationCustom01").value = "";
-          document.getElementById("validationCustom02").value = "";
-          document.getElementById("validationCustom03").value = "";
-          document.getElementById("validationCustom05").value = "";
-          document.getElementById("validationCustom04").value = "";
+            document.getElementById("validationCustom01").value = "";
+            document.getElementById("validationCustom02").value = "";
+            document.getElementById("validationCustom03").value = "";
+            document.getElementById("validationCustom05").value = "";
+            document.getElementById("validationCustom04").value = "";
         },
         function(error) {
-          alert("Failed to send message. Try again.");
-          console.log(error);
+            showAlert("Failed to send message. Try again!", "error");
+            console.log(error);
         }
-      );
+    );
 }
 </script>
+
 
 </body>
 
