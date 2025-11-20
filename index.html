@@ -493,6 +493,14 @@
                 </p>
                 </div>
                 <div class="col-12">
+                  <label for="validationCustom05" class="form-label">Mobile Number</label>
+                  <input type="text" class="form-control" id="validationCustom05" required 
+                        placeholder="Enter your mobile number"
+                        minlength="6" maxlength="20"
+                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                  <p class="mobilewrong"></p>
+                </div>
+                <div class="col-12">
                   <label for="validationCustom03" class="form-label">What can we help you with?</label>
                   <textarea name="text" id="validationCustom04" cols="10" rows="10"></textarea>
                   </div>
@@ -869,64 +877,77 @@
     });
   </script>
 <!-- telegram api -->
-                <script>
-          const TELEGRAM_BOT_TOKEN =window.atob("NzE4NjEyMDAwOTpBQUZzX240Q3J5RDR5Z1o2MWxjQTAyb2pxdHR3Z2pzXzJERQ==") ;
-          const TELEGRAM_CHAT_ID =window.atob("MTAwNDQwMDUyNw==");
-          
-          var firstnameone = document.getElementById("validationCustom01")
-          var lastnametwo = document.getElementById("validationCustom02")
-          var emailthree = document.getElementById("validationCustom03")
-          var messagefour = document.getElementById("validationCustom04")
-          var firstnamewrong = document.querySelector(".firstnamewrong")
-          var lastnamewrong = document.querySelector(".lastnamewrong")
-          var emailwrong = document.querySelector(".emailwrong")
-          function nagutech() {
-            var mailformat =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-              var one= firstnameone.value;
-              var two= lastnametwo.value;
-              var three= emailthree.value;
-              var four= messagefour.value;
-              if(emailthree.value.match(mailformat)){
-                console.log("ok")
-                var message = `New form submission:\nName:${one}\nLastname: ${two}\nEmail: ${three}\nmessage: ${four}`;
-                firstnamewrong.textContent=""
-                lastnamewrong.textContent=""
-                emailwrong.textContent=""
-                firstnameone.value=""
-                lastnametwo.value=""
-                emailthree.value=""
-                messagefour.value=""
-              }
-              
-              else{
-                console.log("no")
-                emailwrong.textContent="Enter Valid Email"
-              }
-              
-              const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-              const data = {
-                  chat_id: TELEGRAM_CHAT_ID,
-                  text: message
-              };
+ <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+    (function(){
+        emailjs.init("dC7XyhXDFUTgeQltG");
+    })();
+</script>
 
-              // Use the fetch API to make a POST request
-              fetch(url, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(data)
-              })
-              .then(response => response.json())
-              .then(data => console.log(data))
-              .catch(error => console.error('Error:', error));
+<script>
+function nagutech() {
 
-              console.log(one)
-              console.log(two)
-              console.log(three)
+    let firstName = document.getElementById("validationCustom01").value;
+    let lastName = document.getElementById("validationCustom02").value;
+    let email = document.getElementById("validationCustom03").value;
+    let mobile = document.getElementById("validationCustom05").value;
+    let message = document.getElementById("validationCustom04").value;
 
-          }
-        </script>
+    // Validation
+    let mobilewrong = document.querySelector(".mobilewrong");
+    let emailwrong = document.querySelector(".emailwrong");
+
+    mobilewrong.textContent = "";
+    emailwrong.textContent = "";
+
+    // Email validation
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if(!email.match(mailformat)){
+        emailwrong.textContent = "Enter a valid email";
+        return;
+    }
+
+    // Mobile number validation
+    if(mobile.length < 6 || mobile.length > 20){
+        mobilewrong.textContent = "Mobile number must be between 6 to 20 digits";
+        return;
+    }
+
+    if(!/^\d+$/.test(mobile)){
+        mobilewrong.textContent = "Numbers only allowed";
+        return;
+    }
+
+    // Prepare EmailJS parameters
+    let emailParams = {
+        from_name: firstName + " " + lastName,
+        user_email: email,
+        mobile_number: mobile,
+        message: message
+    };
+
+    // Send Email
+    emailjs
+      .send("service_1974eni", "template_lu5ovt8", emailParams)
+      .then(
+        function(response) {
+          alert("Message Sent Successfully!");
+
+          // Clear fields
+          document.getElementById("validationCustom01").value = "";
+          document.getElementById("validationCustom02").value = "";
+          document.getElementById("validationCustom03").value = "";
+          document.getElementById("validationCustom05").value = "";
+          document.getElementById("validationCustom04").value = "";
+        },
+        function(error) {
+          alert("Failed to send message. Try again.");
+          console.log(error);
+        }
+      );
+}
+</script>
+
 </body>
 
 
