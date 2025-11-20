@@ -2109,6 +2109,6 @@ background: linear-gradient(to right, #FA6220 0%, #EF8B33 100%);
 .emailwrong{
     color:white !important;
     opacity:1 !important;
-    padding:10px 0px;
+    padding:0px 0px !important;
     /* background:red !important; */
 }
