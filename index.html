@@ -719,6 +719,7 @@
     <script src="owl/js/owl.carousel.min.js"></script>
     <script src="js-plugins/fontawesome/js/all.min.js"></script>
     <script src="purecounter/purecounter.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script src="aos/js/aos.js"></script>
     <script>AOS.init();</script>
         <!-- back to top  -->
@@ -899,70 +900,55 @@ function showAlert(message, type="success") {
 </script>
 
 <!-- telegram api -->
- <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-    (function(){
-        emailjs.init("dC7XyhXDFUTgeQltG");
-    })();
+(function(){
+    emailjs.init("dC7XyhXDFUTgeQltG");
+})();
 </script>
 
 <script>
 function nagutech() {
+    let firstName = document.getElementById("validationCustom01").value.trim();
+    let lastName = document.getElementById("validationCustom02").value.trim();
+    let email = document.getElementById("validationCustom03").value.trim();
+    let mobile = document.getElementById("validationCustom05").value.trim();
+    let message = document.getElementById("validationCustom04").value.trim();
 
-    let firstName = document.getElementById("validationCustom01").value;
-    let lastName = document.getElementById("validationCustom02").value;
-    let email = document.getElementById("validationCustom03").value;
-    let mobile = document.getElementById("validationCustom05").value;
-    let message = document.getElementById("validationCustom04").value;
-
-    let mobilewrong = document.querySelector(".mobilewrong");
     let emailwrong = document.querySelector(".emailwrong");
-
-    mobilewrong.textContent = "";
+    let mobilewrong = document.querySelector(".mobilewrong");
     emailwrong.textContent = "";
+    mobilewrong.textContent = "";
 
     let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if(!email.match(mailformat)){
+    if (!email.match(mailformat)) {
         emailwrong.textContent = "Enter a valid email";
         showAlert("Enter a valid email!", "error");
         return;
     }
-
-    if(mobile.length < 6 || mobile.length > 20){
+    if (mobile.length < 6 || mobile.length > 20) {
         mobilewrong.textContent = "Mobile number must be between 6 to 20 digits";
         showAlert("Invalid mobile number!", "error");
         return;
     }
 
-    if(!/^\d+$/.test(mobile)){
-        mobilewrong.textContent = "Numbers only allowed";
-        showAlert("Mobile number must contain only digits!", "error");
-        return;
-    }
-
-    let emailParams = {
+    emailjs.send("service_sdouwp6", "template_lu5ovt8", {
         from_name: firstName + " " + lastName,
         user_email: email,
         mobile_number: mobile,
         message: message
-    };
-
-    emailjs.send("service_1974eni", "template_lu5ovt8", emailParams)
-    .then(
-        function() {
-            showAlert("Message Sent Successfully!", "success");
-
-            document.getElementById("validationCustom01").value = "";
-            document.getElementById("validationCustom02").value = "";
-            document.getElementById("validationCustom03").value = "";
-            document.getElementById("validationCustom05").value = "";
-            document.getElementById("validationCustom04").value = "";
-        },
-        function(error) {
-            showAlert("Failed to send message. Try again!", "error");
-            console.log(error);
-        }
-    );
+    })
+    .then(function() {
+        showAlert("Message Sent Successfully!", "success");
+        document.getElementById("validationCustom01").value = "";
+        document.getElementById("validationCustom02").value = "";
+        document.getElementById("validationCustom03").value = "";
+        document.getElementById("validationCustom05").value = "";
+        document.getElementById("validationCustom04").value = "";
+    })
+    .catch(function(error) {
+        showAlert("Failed to send message. Try again!", "error");
+        console.log(error);
+    });
 }
 </script>
 
